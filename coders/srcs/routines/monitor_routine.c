@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 18:39:53 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 19:44:26 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod)
 		}
 		if (detect_burnout(&compiler->coders[i], &compiler->monitor) != 0)
 			break ;
-		if (!ar[i])
+		if (ar[i] == 0)
+		{
 			completed += check_if_compiled(&compiler->coders[i], i, ar);
+			if (check_if_compiled(&compiler->coders[i], i, ar))
+				printf("Coder %d compiled!\n", compiler->coders[i].id);
+		}
 		/*if (i == nb_cod - 1)
 			usleep(1000);*/
 		i = (i + 1) % nb_cod;

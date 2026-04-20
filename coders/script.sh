@@ -2,12 +2,12 @@
 
 ARGS=(
   12        # NB_COD
-  500000    # BURNOUT
-  10000    # COMPILE
-  10000    # DEBUG
-  10000    # REFACTOR
+  5000    # BURNOUT
+  1000    # COMPILE
+  1000    # DEBUG
+  1000    # REFACTOR
   1         # REQ
-  10000    # COOLDOWN
+  1000    # COOLDOWN
   edf       # SCHD
 )
 
@@ -28,6 +28,6 @@ FILES=(
 
 clear
 gcc -g "${FILES[@]}" -o prog
-gdb --args ./prog "${ARGS[@]}"
+./prog "${ARGS[@]}"
 
 #valgrind --leak-check=full --show-leak-kinds=all -s

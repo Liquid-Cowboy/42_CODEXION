@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:31:15 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 18:49:50 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 19:27:12 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 		enemy = dongle->heap[1];
 	else
 		enemy = dongle->heap[0];
+
+	if (!enemy)
+		printf("Enemy does not have a comp_st!\n");
 	if (coder->comp_st + burn < enemy->comp_st + burn)
 		return (0);
 	return (1);

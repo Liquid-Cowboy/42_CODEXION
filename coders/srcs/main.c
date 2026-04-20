@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:30:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/16 16:16:36 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 19:29:45 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	if (err)
 		return (err);
 	nb_cod = compiler->hub.number_of_coders;
-	init_coders(compiler);
+	init_all(compiler);
 	err = start_threads(compiler);
 	if (err)
 		return (free_compiler(compiler, 4, nb_cod), err);
