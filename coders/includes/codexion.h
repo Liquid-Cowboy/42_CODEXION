@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:11:28 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 18:39:41 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 19:11:36 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod);
 // routines/dongle_management.c
 int					grab_both_dongles(struct s_coder *coder);
 int					grab_single_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown);
-void	leave_both_dongles(struct s_coder *coder);
+void	leave_both_dongles(struct s_coder *coder, int used);
 int		request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown);
 
 // enqueue.c
-int				enqueue_fifo(struct s_coder *coder, int locked);
+int				enqueue_fifo(struct s_coder *coder);
 int				is_first_fifo(struct s_coder *coder, struct s_dongle *dongle);
-int				enqueue_edf(struct s_coder *coder, int locked);
+int				enqueue_edf(struct s_coder *coder);
 int				is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn);
 void				coder_swap(struct s_dongle *dongle);
 

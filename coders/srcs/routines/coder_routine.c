@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 18:05:46 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 19:11:19 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	start_routine(struct s_coder *coder)
 {
 	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
 	{
-		if (enqueue_fifo(coder, 0) != 0)
+		if (enqueue_fifo(coder) != 0)
 			return (1);
 	}
 	else
 	{
-		if (enqueue_edf(coder, 0) != 0)
+		if (enqueue_edf(coder) != 0)
 			return (1);
 	}
 	if (grab_both_dongles(coder) != 0)
@@ -115,7 +115,7 @@ void	do_coder_action(struct s_coder *coder,
 		coder->comp_st = get_time();
 		pthread_mutex_unlock(&coder->mutex);
 		usleep(coder->compiler->hub.time_to_compile * 1000);
-		leave_both_dongles(coder);
+		leave_both_dongles(coder, 1);
 	}
 	else if (strcmp(action, "debbug") == 0)
 	{
