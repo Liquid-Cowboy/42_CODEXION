@@ -2,13 +2,32 @@
 
 ARGS=(
   12        # NB_COD
-  500000    # BURNOUT
-  100000    # COMPILE
-  100000    # DEBUG
-  100000    # REFACTOR
+  50000    # BURNOUT
+  10000    # COMPILE
+  10000    # DEBUG
+  10000    # REFACTOR
   1         # REQ
-  100000    # COOLDOWN
-  sedf       # SCHD
+  10000    # COOLDOWN
+  edf       # SCHD
 )
 
+FILES=(
+	srcs/main.c
+	srcs/parser.c
+	srcs/init.c
+	srcs/routines/coder_routine.c
+	srcs/routines/monitor_routine.c
+	srcs/routines/dongle_management.c
+	srcs/threads/thread_cleanup.c
+	srcs/threads/thread_start_1.c
+	srcs/threads/thread_start_2.c
+	srcs/enqueue.c
+	srcs/memory_handling.c
+	srcs/utils.c
+)
+
+clear
+gcc -g "${FILES[@]}" -o prog
 ./prog "${ARGS[@]}"
+
+#valgrind --leak-check=full --show-leak-kinds=all -s
