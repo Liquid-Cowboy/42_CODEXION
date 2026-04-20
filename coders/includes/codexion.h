@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:11:28 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 12:13:13 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 17:54:20 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void				init_dongles(struct s_compiler *compiler);
 void	*coder_routine(void *arg);
 int		start_routine(struct s_coder *coder);
 int		make_coder_work(struct s_coder *coder);
-void	do_coder_action(struct s_coder *coder, const char* action, uint64_t time);
+void	do_coder_action(struct s_coder *coder, const char* action, struct s_monitor *monitor);
 int		can_start(struct s_coder *coder);
 
 // routines.monitor_routine.c
@@ -79,10 +79,10 @@ void	leave_both_dongles(struct s_coder *coder);
 int		request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown);
 
 // enqueue.c
-void				enqueue_fifo(struct s_coder *coder, int locked);
-void				order_fifo(struct s_coder *coder, struct s_dongle *dongle);
-void				enqueue_edf(struct s_coder *coder, int locked);
-void				order_edf(struct s_coder *coder, struct s_dongle *dongle, int burn);
+int				enqueue_fifo(struct s_coder *coder, int locked);
+int				is_first_fifo(struct s_coder *coder, struct s_dongle *dongle);
+int				enqueue_edf(struct s_coder *coder, int locked);
+int				is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn);
 void				coder_swap(struct s_dongle *dongle);
 
 // utils.c
@@ -90,6 +90,7 @@ void		decide_first_dongle(struct s_dongle **dongles, struct s_coder *coder);
 u_int64_t	get_time(void);
 int			check_if_stopped(struct s_monitor monitor);
 void		print_success_msg(struct s_compiler *compiler);
+uint64_t	get_prog_time(struct s_monitor *monitor);
 
 
 //error macros

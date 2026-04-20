@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 22:01:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 09:01:07 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 14:15:52 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ struct s_coder
 	int				id;
 	uint64_t		comp_st;
 	uint64_t		ref_end;
-	int				burnt_out;
+	int				burned_out;
 	int				compiles_left;
 
 };
@@ -60,6 +60,7 @@ struct s_monitor
 {
 	pthread_mutex_t	mutex;
 	pthread_t		thread;
+	uint64_t		prog_start;
 	int				stop;
 };
 

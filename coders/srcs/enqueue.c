@@ -6,19 +6,18 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:31:15 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 11:15:13 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 17:12:39 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/codexion.h"
 
-void	enqueue_fifo(struct s_coder *coder, int locked);
-void	order_fifo(struct s_coder *coder, struct s_dongle *dongle);
-void	enqueue_edf(struct s_coder *coder, int locked);
-void	order_edf(struct s_coder *coder, struct s_dongle *dongle, int burn);
-void	coder_swap(struct s_dongle *dongle);
+int	enqueue_fifo(struct s_coder *coder, int locked);
+int		is_first_fifo(struct s_coder *coder, struct s_dongle *dongle);
+int	enqueue_edf(struct s_coder *coder, int locked);
+int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn);
 
-void	enqueue_fifo(struct s_coder *coder, int locked)
+int	enqueue_fifo(struct s_coder *coder, int locked)
 {
 	t_dongle	*dongles[2];
 
@@ -26,28 +25,33 @@ void	enqueue_fifo(struct s_coder *coder, int locked)
 	if (!locked)
 	{
 		pthread_mutex_lock(&dongles[0]->mutex);
-		order_fifo(coder, dongles[0]);
+		if (is_first_fifo(coder, dongles[0]) != 0)
+			return (pthread_mutex_unlock(&dongles[0]->mutex), 1);
 		pthread_mutex_unlock(&dongles[0]->mutex);
 		pthread_mutex_lock(&dongles[1]->mutex);
-		order_fifo(coder, dongles[1]);
-		pthread_mutex_unlock(&dongles[1]->mutex);
+		if (is_first_fifo(coder, dongles[1]) != 0)
+			return (pthread_mutex_unlock(&dongles[1]->mutex), 1);
+		return (pthread_mutex_unlock(&dongles[1]->mutex), 0);
 	}
 	else
 	{
-		order_fifo(coder, dongles[0]);
-		order_fifo(coder, dongles[1]);
+		if ((is_first_fifo(coder, dongles[0]) == 0
+		&& is_first_fifo(coder, dongles[1]) == 0))
+			return (0);
+		return (1);
 	}
 }
 
-void	order_fifo(struct s_coder *coder, struct s_dongle *dongle)
+int	is_first_fifo(struct s_coder *coder, struct s_dongle *dongle)
 {
-	if (coder == dongle->heap[0] && coder->ref_end > dongle->heap[1]->ref_end)
-		coder_swap(dongle);
+	if (coder == dongle->heap[0] && coder->ref_end < dongle->heap[1]->ref_end)
+		return(0);
 	if (coder == dongle->heap[1] && coder->ref_end < dongle->heap[0]->ref_end)
-		coder_swap(dongle);
+		return(0);
+	return (1);
 }
 
-void	enqueue_edf(struct s_coder *coder, int locked)
+int	enqueue_edf(struct s_coder *coder, int locked)
 {
 	t_dongle	*dongles[2];
 	int			burn;
@@ -57,36 +61,31 @@ void	enqueue_edf(struct s_coder *coder, int locked)
 	if (!locked)
 	{
 		pthread_mutex_lock(&dongles[0]->mutex);
-		order_edf(coder, dongles[0], burn);
+		if (is_first_edf(coder, dongles[0], burn) != 0)
+			return (pthread_mutex_unlock(&dongles[0]->mutex), 1);
 		pthread_mutex_unlock(&dongles[0]->mutex);
 		pthread_mutex_lock(&dongles[1]->mutex);
-		order_edf(coder, dongles[1], burn);
-		pthread_mutex_unlock(&dongles[1]->mutex);
+		if (is_first_edf(coder, dongles[1], burn) != 0)
+			return(pthread_mutex_unlock(&dongles[1]->mutex), 1);
+		return (pthread_mutex_unlock(&dongles[1]->mutex), 0);
 	}
 	else
 	{
-		order_edf(coder, dongles[0], burn);
-		order_edf(coder, dongles[1], burn);
+		if (is_first_edf(coder, dongles[0], burn) == 0
+		&& is_first_edf(coder, dongles[1], burn) == 0)
+			return (0);
+		return (1);
 	}
 }
 
-void	order_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
+int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 {
 	pthread_mutex_lock(&dongle->mutex);
 	if (coder == dongle->heap[0]
-		&& coder->comp_st + burn > dongle->heap[1]->comp_st + burn)
-		coder_swap(dongle);
+		&& coder->comp_st + burn < dongle->heap[1]->comp_st + burn)
+		return (pthread_mutex_unlock(&dongle->mutex), 0);
 	if (coder == dongle->heap[1]
 		&& coder->comp_st + burn < dongle->heap[0]->comp_st + burn)
-		coder_swap(dongle);
-	pthread_mutex_unlock(&dongle->mutex);
-}
-
-void	coder_swap(struct s_dongle *dongle)
-{
-	t_coder	*tmp;
-
-	tmp = dongle->heap[0];
-	dongle->heap[0] = dongle->heap[1];
-	dongle->heap[1] = tmp;
+		return (pthread_mutex_unlock(&dongle->mutex), 0);
+	return (pthread_mutex_unlock(&dongle->mutex), 1);
 }

@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 11:21:27 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:14:28 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,15 @@ int	grab_single_dongle(struct s_coder *coder,
 	if (request_dongle(coder, dongle, cooldown) != 0)
 		return (1);
 	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
-		enqueue_fifo(coder, 1);
+	{
+		if (enqueue_fifo(coder, 1) != 0)
+			return(pthread_mutex_unlock(&dongle->mutex), 1);
+	}
 	else
-		enqueue_edf(coder, 1);
+	{
+		if (enqueue_edf(coder, 1) != 0)
+			return(pthread_mutex_unlock(&dongle->mutex), 1);
+	}
 	pthread_mutex_lock(&coder->mutex);
 	if (coder == coder->l_dongle->heap[0] && coder == coder->r_dongle->heap[0])
 	{
@@ -78,7 +84,7 @@ void	leave_both_dongles(struct s_coder *coder)
 int	request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown)
 {
 	struct timespec	deadline;
-	u_int64_t		target;
+	uint64_t		target;
 
 	pthread_mutex_lock(&dongle->mutex);
 	pthread_mutex_lock(&coder->mutex);
@@ -95,11 +101,10 @@ int	request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown)
 	pthread_mutex_lock(&coder->mutex);
 	if (get_time() > coder->comp_st + coder->compiler->hub.time_to_burnout)
 	{
-		coder->burnt_out = 1;
-		pthread_mutex_unlock(&coder->mutex);
-		pthread_mutex_unlock(&dongle->mutex);
-		return (1);
+		coder->burned_out = 1;
+		printf("Coder %d burned out\n", coder->id);
+		return (pthread_mutex_unlock(&coder->mutex),
+			pthread_mutex_unlock(&dongle->mutex), 1);
 	}
-	pthread_mutex_unlock(&coder->mutex);
-	return (0);
+	return (pthread_mutex_unlock(&coder->mutex), 0);
 }

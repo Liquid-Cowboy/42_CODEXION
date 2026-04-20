@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:18:51 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 11:35:58 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 17:25:10 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void		decide_first_dongle(struct s_dongle **dongles,
 u_int64_t	get_time(void);
 int			check_if_stopped(struct s_monitor monitor);
 void		print_success_msg(struct s_compiler *compiler);
+uint64_t	get_prog_time(struct s_monitor *monitor);
 
 void	decide_first_dongle(struct s_dongle **dongles, struct s_coder *coder)
 {
@@ -51,13 +52,20 @@ int	check_if_stopped(struct s_monitor monitor)
 
 inline
 __attribute__((always_inline))
-u_int64_t	get_time(void)
+uint64_t	get_time(void)
 {
 	struct timeval	now;
 
 	if (gettimeofday(&now, NULL) == -1)
 		return (0);
 	return (now.tv_sec * 1000 + now.tv_usec / 1000);
+}
+
+uint64_t	get_prog_time(struct s_monitor *monitor)
+{
+	uint64_t	time;
+	time = get_time() - monitor->prog_start;
+	return (time);
 }
 
 void	print_success_msg(struct s_compiler *compiler)
