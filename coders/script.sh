@@ -28,6 +28,6 @@ FILES=(
 
 clear
 gcc -g "${FILES[@]}" -o prog
-./prog "${ARGS[@]}"
+gdb --args ./prog "${ARGS[@]}"
 
 #valgrind --leak-check=full --show-leak-kinds=all -s

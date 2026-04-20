@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:31:15 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 17:12:39 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:37:13 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,14 @@ int	enqueue_fifo(struct s_coder *coder, int locked)
 
 int	is_first_fifo(struct s_coder *coder, struct s_dongle *dongle)
 {
-	if (coder == dongle->heap[0] && coder->ref_end < dongle->heap[1]->ref_end)
-		return(0);
-	if (coder == dongle->heap[1] && coder->ref_end < dongle->heap[0]->ref_end)
-		return(0);
+	t_coder	*enemy;
+
+	if (coder == dongle->heap[0])
+		enemy = dongle->heap[1];
+	else
+		enemy = dongle->heap[0];
+	if (coder->ref_end < enemy->ref_end)
+		return (0);
 	return (1);
 }
 
@@ -80,12 +84,13 @@ int	enqueue_edf(struct s_coder *coder, int locked)
 
 int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 {
-	pthread_mutex_lock(&dongle->mutex);
-	if (coder == dongle->heap[0]
-		&& coder->comp_st + burn < dongle->heap[1]->comp_st + burn)
-		return (pthread_mutex_unlock(&dongle->mutex), 0);
-	if (coder == dongle->heap[1]
-		&& coder->comp_st + burn < dongle->heap[0]->comp_st + burn)
-		return (pthread_mutex_unlock(&dongle->mutex), 0);
-	return (pthread_mutex_unlock(&dongle->mutex), 1);
+	t_coder *enemy;
+
+	if (coder == dongle->heap[0])
+		enemy = dongle->heap[1];
+	else
+		enemy = dongle->heap[0];
+	if (coder->comp_st + burn < enemy->comp_st + burn)
+		return (0);
+	return (1);
 }

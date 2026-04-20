@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:11:28 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 17:54:20 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:39:41 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		can_start(struct s_coder *coder);
 // routines.monitor_routine.c
 void	*monitor_routine(void *arg);
 int		detect_burnout(struct s_coder *coder,
-			struct s_monitor *monitor, int i);
+			struct s_monitor *monitor);
 int		check_if_compiled(struct s_coder *coder, int i, int *ar);
 void	run_monitor_loop(struct s_compiler *compiler, int nb_cod);
 

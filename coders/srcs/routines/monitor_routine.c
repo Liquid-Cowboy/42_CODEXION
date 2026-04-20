@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 18:15:26 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 18:39:53 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*monitor_routine(void *arg);
 int		detect_burnout(struct s_coder *coder,
-			struct s_monitor *monitor, int i);
+			struct s_monitor *monitor);
 int		check_if_compiled(struct s_coder *coder, int i, int *ar);
 void	run_monitor_loop(struct s_compiler *compiler, int nb_cod);
 
@@ -49,7 +49,7 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod)
 			print_success_msg(compiler);
 			break ;
 		}
-		if (detect_burnout(&compiler->coders[i], &compiler->monitor, i) != 0)
+		if (detect_burnout(&compiler->coders[i], &compiler->monitor) != 0)
 			break ;
 		if (!ar[i])
 			completed += check_if_compiled(&compiler->coders[i], i, ar);
@@ -60,7 +60,7 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod)
 	free(ar);
 }
 
-int	detect_burnout(struct s_coder *coder, struct s_monitor *monitor, int i)
+int	detect_burnout(struct s_coder *coder, struct s_monitor *monitor)
 {
 	int burned_out;
 	uint64_t time;
