@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 21:46:57 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 19:41:23 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 20:28:53 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	init_coders(struct s_compiler *compiler)
 		compiler->coders[i].id = i + 1;
 		compiler->coders[i].compiles_left = (
 				compiler->hub.number_of_compiles_required);
-		compiler->coders[i].comp_st = get_time();
-		compiler->coders[i].ref_end = get_time();
+		compiler->coders[i].comp_st = 0;
+		compiler->coders[i].ref_end = 0;
 		compiler->coders[i].burned_out = 0;
 	}
 }

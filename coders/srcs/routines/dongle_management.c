@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 19:10:40 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 20:22:30 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,13 @@ int	grab_single_dongle(struct s_coder *coder,
 {
 	if (request_dongle(coder, dongle, cooldown) != 0)
 		return (1);
-	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
-	{
-		if (enqueue_fifo(coder) != 0)
-			return (1);
-	}
-	else
-	{
-		if (enqueue_edf(coder) != 0)
-			return (1);
-	}
 	pthread_mutex_lock(&dongle->mutex);
 	dongle->in_use = 1;
-	pthread_mutex_lock(&coder->compiler->monitor.mutex);
-	printf("%" PRId64 " %d has taken a dongle\n", get_time(), coder->id);
-	pthread_mutex_unlock(&coder->compiler->monitor.mutex);
 	pthread_mutex_unlock(&dongle->mutex);
+	pthread_mutex_lock(&coder->compiler->monitor.mutex);
+	printf("%" PRId64 " %d has taken a dongle\n",
+		get_prog_time(&coder->compiler->monitor), coder->id);
+	pthread_mutex_unlock(&coder->compiler->monitor.mutex);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 19:45:31 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/20 20:28:45 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*coder_routine(void *arg)
 	coder->comp_st = get_time();
 	coder->ref_end = get_time();
 	pthread_mutex_unlock(&coder->mutex);
-	while (can_start(coder) != 0)
+	while (can_start(coder) == 0)
 	{
 		if (start_routine(coder) != 0)
 			continue ;
@@ -71,13 +71,20 @@ int	start_routine(struct s_coder *coder)
 	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
 	{
 		if (enqueue_fifo(coder) != 0)
+		{
+			//printf("Coder %d: NOT first in fifo queue\n", coder->id);
 			return (1);
+		}
 	}
 	else
 	{
 		if (enqueue_edf(coder) != 0)
+		{
+			//printf("Coder %d: NOT first in edf queue\n", coder->id);
 			return (1);
+		}
 	}
+	printf("Coder %d: FIRST in queue, grabbing dongles\n", coder->id);
 	if (grab_both_dongles(coder) != 0)
 		return (1);
 	if (make_coder_work(coder) != 0)
@@ -108,7 +115,7 @@ void	do_coder_action(struct s_coder *coder,
 	pthread_mutex_lock(&coder->compiler->monitor.mutex);
 	if (strcmp(action, "compile") == 0)
 	{
-		printf("%" PRId64 "%d is compiling\n",
+		printf("%" PRId64 " %d is compiling\n",
 			get_prog_time(monitor), coder->id);
 		pthread_mutex_unlock(&coder->compiler->monitor.mutex);
 		pthread_mutex_lock(&coder->mutex);
