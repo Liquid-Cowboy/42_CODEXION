@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 09:05:18 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/21 10:04:44 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ int	grab_both_dongles(struct s_coder *coder)
 	decide_first_dongle(dongles, coder);
 	if (grab_single_dongle(coder, dongles[0], cooldown) != 0)
 		return (free(dongles), 1);
-	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
-	{
-		if (enqueue_fifo(coder) != 0)
-			return(free(dongles),
-			leave_both_dongles(coder, 0), 1);
-	}
-	else
-	{
-		if (enqueue_edf(coder) != 0)
-			return(free(dongles),
-			leave_both_dongles(coder, 0), 1);
-	}
 	if (grab_single_dongle(coder, dongles[1], cooldown) != 0)
 		return (free(dongles),
 		leave_both_dongles(coder, 0), 1);
