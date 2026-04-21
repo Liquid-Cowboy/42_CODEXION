@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 09:58:27 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/21 10:39:31 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ void	*coder_routine(void *arg)
 		coder->compiles_left--;
 		pthread_mutex_unlock(&coder->mutex);
 	}
-	pthread_mutex_lock(&coder->compiler->monitor.mutex);
-	printf("Coder %d exiting\n", coder->id);
-	pthread_mutex_unlock(&coder->compiler->monitor.mutex);
 	return (NULL);
 }
 
@@ -62,10 +59,7 @@ int	can_start(struct s_coder *coder)
 		stop = 1;
 	pthread_mutex_unlock(&coder->compiler->monitor.mutex);
 	if (compiled || burned_out || stop)
-	{
-		printf("Simulation stopped\n");
 		return (1);
-	}
 	return (0);
 }
 
@@ -74,20 +68,13 @@ int	start_routine(struct s_coder *coder)
 	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
 	{
 		if (enqueue_fifo(coder) != 0)
-		{
-			//printf("Coder %d: NOT first in fifo queue\n", coder->id);
 			return (1);
-		}
 	}
 	else
 	{
 		if (enqueue_edf(coder) != 0)
-		{
-			//printf("Coder %d: NOT first in edf queue\n", coder->id);
 			return (1);
-		}
 	}
-	printf("Coder %d: FIRST in queue, grabbing dongles\n", coder->id);
 	if (grab_both_dongles(coder) != 0)
 		return (1);
 	if (make_coder_work(coder) != 0)

@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 20:32:30 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/21 10:50:44 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod)
 			break ;
 		if (ar[i] == 0)
 			completed += check_if_compiled(&compiler->coders[i], i, ar);
-		if (i == nb_cod - 1)
-			usleep(1000);
+		//if (i == nb_cod - 1)
+			//usleep(1000);
 		i = (i + 1) % nb_cod;
 	}
 	free(ar);
@@ -69,6 +69,7 @@ int	detect_burnout(struct s_coder *coder, struct s_monitor *monitor)
 	time = get_time();
 	pthread_mutex_lock(&coder->mutex);
 	if (coder->comp_st != 0
+		&& (coder->compiles_left > 0)
 		&& (coder->comp_st + coder->compiler->hub.time_to_burnout) < time)
 		burned_out = 1;
 	pthread_mutex_unlock(&coder->mutex);

@@ -2,13 +2,13 @@
 
 ARGS=(
   12        # NB_COD
-  60000    # BURNOUT
+  5000    # BURNOUT
   1000    # COMPILE
   1000    # DEBUG
   1000    # REFACTOR
   1         # REQ
   1000    # COOLDOWN
-  edf       # SCHD
+  fifo       # SCHD
 )
 
 FILES=(
@@ -27,7 +27,7 @@ FILES=(
 )
 
 clear
-gcc -g "${FILES[@]}" -o prog
+gcc "${FILES[@]}" -o prog
 ./prog "${ARGS[@]}"
 
 #valgrind --leak-check=full --show-leak-kinds=all -s
