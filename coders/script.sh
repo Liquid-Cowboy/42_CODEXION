@@ -2,7 +2,7 @@
 
 ARGS=(
   12        # NB_COD
-  50000    # BURNOUT
+  60000    # BURNOUT
   1000    # COMPILE
   1000    # DEBUG
   1000    # REFACTOR

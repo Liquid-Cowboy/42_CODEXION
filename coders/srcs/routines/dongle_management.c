@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 20:22:30 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/21 09:05:18 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,32 @@ int		request_dongle(struct s_coder *coder,
 
 int	grab_both_dongles(struct s_coder *coder)
 {
-	t_dongle	*dongles[2];
+	t_dongle	**dongles;
 	int			cooldown;
 
+	dongles = (t_dongle**)malloc(sizeof (t_dongle)*2);
+	if (!dongles)
+		return (1);
 	cooldown = coder->compiler->hub.dongle_cooldown;
 	decide_first_dongle(dongles, coder);
 	if (grab_single_dongle(coder, dongles[0], cooldown) != 0)
-		return (1);
+		return (free(dongles), 1);
+	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
+	{
+		if (enqueue_fifo(coder) != 0)
+			return(free(dongles),
+			leave_both_dongles(coder, 0), 1);
+	}
+	else
+	{
+		if (enqueue_edf(coder) != 0)
+			return(free(dongles),
+			leave_both_dongles(coder, 0), 1);
+	}
 	if (grab_single_dongle(coder, dongles[1], cooldown) != 0)
-		return (leave_both_dongles(coder, 0), 1);
-	return (0);
+		return (free(dongles),
+		leave_both_dongles(coder, 0), 1);
+	return (free(dongles), 0);
 }
 
 int	grab_single_dongle(struct s_coder *coder,
@@ -50,21 +66,25 @@ int	grab_single_dongle(struct s_coder *coder,
 
 void	leave_both_dongles(struct s_coder *coder, int used)
 {
-	t_dongle	*dongles[2];
+	t_dongle	**dongles;
 
+	dongles = (t_dongle **)malloc(sizeof (t_dongle) * 2);
+	if(!dongles)
+		return ;
 	decide_first_dongle(dongles, coder);
-	pthread_mutex_lock(&dongles[0]->mutex);
-	dongles[0]->in_use = 0;
-	if (used)
-		dongles[0]->last_used = get_time();
-	pthread_cond_broadcast(&dongles[0]->cond);
-	pthread_mutex_unlock(&dongles[0]->mutex);
 	pthread_mutex_lock(&dongles[1]->mutex);
 	dongles[1]->in_use = 0;
 	if (used)
 		dongles[1]->last_used = get_time();
 	pthread_cond_broadcast(&dongles[1]->cond);
 	pthread_mutex_unlock(&dongles[1]->mutex);
+	pthread_mutex_lock(&dongles[0]->mutex);
+	dongles[0]->in_use = 0;
+	if (used)
+		dongles[0]->last_used = get_time();
+	pthread_cond_broadcast(&dongles[0]->cond);
+	pthread_mutex_unlock(&dongles[0]->mutex);
+	free(dongles);
 }
 
 int	request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown)
