@@ -6,11 +6,11 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 16:35:59 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/15 22:01:04 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:58:57 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/codexion.h"
+#include "../../includes/codexion.h"
 
 void						call_err_parser(int arg_nb, int error_type);
 int							check_valid_nb(int nb, char *arg, int arg_nb);
@@ -59,7 +59,7 @@ int	check_valid_nb(int nb, char *arg, int arg_nb)
 {
 	char	*end;
 
-	if (arg_nb == 1 && nb < 2)
+	if (arg_nb == 1 && nb < 1)
 		return (call_err_parser(arg_nb, 0), 1);
 	while (*arg && (*arg == ' ' || (*arg >= 9 && *arg <= 13) || *arg == '+'))
 		arg++;

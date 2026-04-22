@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 22:01:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 14:15:52 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:06:05 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ struct s_coder
 	int				id;
 	uint64_t		comp_st;
 	uint64_t		ref_end;
-	int				burned_out;
 	int				compiles_left;
 
 };

@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 10:39:31 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:07:05 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,23 +42,19 @@ void	*coder_routine(void *arg)
 int	can_start(struct s_coder *coder)
 {
 	int	compiled;
-	int	burned_out;
 	int	stop;
 
 	compiled = 0;
-	burned_out = 0;
 	stop = 0;
 	pthread_mutex_lock(&coder->mutex);
 	if (coder->compiles_left <= 0)
 		compiled = 1;
-	if (coder->burned_out)
-		burned_out = 1;
 	pthread_mutex_unlock(&coder->mutex);
 	pthread_mutex_lock(&coder->compiler->monitor.mutex);
 	if (coder->compiler->monitor.stop)
 		stop = 1;
 	pthread_mutex_unlock(&coder->compiler->monitor.mutex);
-	if (compiled || burned_out || stop)
+	if (compiled || stop)
 		return (1);
 	return (0);
 }

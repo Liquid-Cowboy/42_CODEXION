@@ -6,11 +6,11 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 21:46:57 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 20:28:53 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:58:46 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/codexion.h"
+#include "../../includes/codexion.h"
 
 void	init_all(struct s_compiler *compiler);
 void	init_coders(struct s_compiler *compiler);
@@ -44,7 +44,6 @@ void	init_coders(struct s_compiler *compiler)
 				compiler->hub.number_of_compiles_required);
 		compiler->coders[i].comp_st = 0;
 		compiler->coders[i].ref_end = 0;
-		compiler->coders[i].burned_out = 0;
 	}
 }
 

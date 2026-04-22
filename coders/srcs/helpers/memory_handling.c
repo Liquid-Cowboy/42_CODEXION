@@ -6,11 +6,11 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:13 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 11:18:11 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:58:52 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/codexion.h"
+#include "../../includes/codexion.h"
 
 int		compiler_init(struct s_compiler **compiler, int argc, char **argv);
 void	free_compiler(struct s_compiler *compiler, int stage, int heap_i);

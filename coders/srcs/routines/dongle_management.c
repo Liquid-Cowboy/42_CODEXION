@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 10:53:59 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:26:16 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	grab_single_dongle(struct s_coder *coder,
 	struct s_dongle *dongle, int cooldown)
 {
 	if (request_dongle(coder, dongle, cooldown) != 0)
+		return (1);
+	if (can_start(coder) != 0)
 		return (1);
 	pthread_mutex_lock(&dongle->mutex);
 	dongle->in_use = 1;
@@ -104,13 +106,5 @@ int	request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown)
 		deadline.tv_nsec = (target % 1000) * 1000000;
 		pthread_cond_timedwait(&dongle->cond, &dongle->mutex, &deadline);
 	}
-	pthread_mutex_lock(&coder->mutex);
-	if (get_time() > coder->comp_st + coder->compiler->hub.time_to_burnout)
-	{
-		coder->burned_out = 1;
-		return (pthread_mutex_unlock(&coder->mutex),
-			pthread_mutex_unlock(&dongle->mutex), 1);
-	}
-	return (pthread_mutex_unlock(&coder->mutex),
-		pthread_mutex_unlock(&dongle->mutex), 0);
+	return (pthread_mutex_unlock(&dongle->mutex), 0);
 }

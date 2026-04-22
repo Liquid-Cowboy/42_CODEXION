@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:30:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 19:29:45 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:52:53 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@ void	print_compiler(struct s_hub_stats compiler)
 		compiler.scheduler);
 }
 
+void	handle_single_coder(struct s_compiler *compiler,
+		struct s_monitor *monitor)
+{
+	compiler->coders[0].comp_st = 1;
+	compiler->coders[0].compiles_left = 1;
+	compiler->coders[0].compiler = compiler;
+	compiler->coders[0].id = 1;
+	init_coder_mutexes(compiler, 1);
+	compiler->coders[0].comp_st = get_prog_time(monitor);
+	create_monitor_thread(compiler);
+	if (pthread_join(monitor->thread, NULL) != 0)
+		fprintf(stderr, "Error: Unable to join monitor thread.\n");
+	pthread_mutex_destroy(&monitor->mutex);
+}
+
 int	main(int argc, char **argv)
 {
 	t_compiler	*compiler;
@@ -44,6 +59,9 @@ int	main(int argc, char **argv)
 	if (err)
 		return (err);
 	nb_cod = compiler->hub.number_of_coders;
+	if (nb_cod == 1)
+		return (handle_single_coder(compiler,
+			&compiler->monitor), 1);
 	init_all(compiler);
 	err = start_threads(compiler);
 	if (err)

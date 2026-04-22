@@ -6,11 +6,11 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:31:15 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 10:27:59 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:56:01 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/codexion.h"
+#include "../../includes/codexion.h"
 
 int	enqueue_fifo(struct s_coder *coder);
 int		is_first_fifo(struct s_coder *coder, struct s_dongle *dongle);

@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:11:28 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 19:11:36 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:46:57 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ uint64_t	get_prog_time(struct s_monitor *monitor);
 
 
 //error macros
-# define ERR_NB_COD "Codexion cannot run with < 2 coders." \
-		"If number_of_coders is 1, coder 1 will inevitably burnout."
+# define ERR_NB_COD "Codexion must run with at least 1 coder."
 # define ERR_NEG_INT  "Value is a negative integer."
 # define ERR_NOT_INT "Argument is not a valid integer."
 # define ERR_COMP_REQ  "Coders must compile at least 1 time."

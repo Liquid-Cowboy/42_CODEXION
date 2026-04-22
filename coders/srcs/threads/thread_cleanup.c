@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:01:18 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 10:33:56 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:42:36 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int	join_threads(struct s_compiler *compiler, int nb_cod)
 	destroy_dongle_cond(compiler, nb_cod);
 	destroy_dongle_mutexes(compiler, nb_cod);
 	destroy_coder_mutexes(compiler, nb_cod);
+	pthread_mutex_destroy(&compiler->monitor.mutex);
 	return (err);
 }

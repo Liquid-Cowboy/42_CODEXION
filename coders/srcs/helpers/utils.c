@@ -6,11 +6,11 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:18:51 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/20 17:25:10 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 10:59:03 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/codexion.h"
+#include "../../includes/codexion.h"
 
 void		decide_first_dongle(struct s_dongle **dongles,
 				struct s_coder *coder);
@@ -72,6 +72,6 @@ void	print_success_msg(struct s_compiler *compiler)
 {
 	pthread_mutex_lock(&compiler->monitor.mutex);
 	printf("%" PRId64 " all coders compiled successfully\n",
-		get_time());
+		get_prog_time(&compiler->monitor));
 	pthread_mutex_unlock(&compiler->monitor.mutex);
 }
