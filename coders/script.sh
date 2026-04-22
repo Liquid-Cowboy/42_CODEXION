@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ARGS=(
-  2        # NB_COD
+  12        # NB_COD
   800    # BURNOUT
   100    # COMPILE
   100    # DEBUG
@@ -27,7 +27,7 @@ FILES=(
 )
 
 clear
-gcc -g "${FILES[@]}" -o prog
+gcc -g  "${FILES[@]}" -o prog
 ./prog "${ARGS[@]}"
 
 #valgrind --leak-check=full --show-leak-kinds=all -s

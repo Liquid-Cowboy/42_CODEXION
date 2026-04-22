@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 10:26:16 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:33:36 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	grab_both_dongles(struct s_coder *coder)
 	t_dongle	**dongles;
 	int			cooldown;
 
-	dongles = (t_dongle**)malloc(sizeof (t_dongle)*2);
+	dongles = (t_dongle **)malloc(sizeof(t_dongle) * 2);
 	if (!dongles)
 		return (1);
 	cooldown = coder->compiler->hub.dongle_cooldown;
@@ -34,18 +34,16 @@ int	grab_both_dongles(struct s_coder *coder)
 	if (strcmp(coder->compiler->hub.scheduler, "fifo") == 0)
 	{
 		if (enqueue_fifo(coder) != 0)
-			return(free(dongles),
-			leave_both_dongles(coder, 0), 1);
+			return (free(dongles), leave_both_dongles(coder, 0), 1);
 	}
 	else
 	{
 		if (enqueue_edf(coder) != 0)
-			return(free(dongles),
-			leave_both_dongles(coder, 0), 1);
+			return (free(dongles),
+				leave_both_dongles(coder, 0), 1);
 	}
 	if (grab_single_dongle(coder, dongles[1], cooldown) != 0)
-		return (free(dongles),
-		leave_both_dongles(coder, 0), 1);
+		return (free(dongles), leave_both_dongles(coder, 0), 1);
 	return (free(dongles), 0);
 }
 
@@ -71,7 +69,7 @@ void	leave_both_dongles(struct s_coder *coder, int used)
 	t_dongle	**dongles;
 
 	dongles = (t_dongle **)malloc(sizeof (t_dongle) * 2);
-	if(!dongles)
+	if (!dongles)
 		return ;
 	decide_first_dongle(dongles, coder);
 	pthread_mutex_lock(&dongles[1]->mutex);
@@ -100,6 +98,8 @@ int	request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown)
 	pthread_mutex_unlock(&coder->mutex);
 	while (dongle->in_use || dongle->last_used + cooldown > get_time())
 	{
+		if (can_start(coder) != 0)
+			break ;
 		if (!dongle->in_use && target > dongle->last_used + cooldown)
 			target = (dongle->last_used + cooldown);
 		deadline.tv_sec = target / 1000;

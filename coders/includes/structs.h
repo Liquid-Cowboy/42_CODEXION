@@ -6,13 +6,13 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 22:01:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 10:06:05 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:53:49 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <pthread.h>
-# include <time.h>
-# include <stdint.h>
+#include <pthread.h>
+#include <time.h>
+#include <stdint.h>
 
 typedef struct s_hub_stats	t_hub_stats;
 typedef struct s_compiler	t_compiler;

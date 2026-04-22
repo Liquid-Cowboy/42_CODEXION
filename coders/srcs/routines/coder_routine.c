@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 10:07:05 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:30:00 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	start_routine(struct s_coder *coder)
 	if (grab_both_dongles(coder) != 0)
 		return (1);
 	if (make_coder_work(coder) != 0)
-		return (leave_both_dongles(coder, 0),1);
+		return (leave_both_dongles(coder, 0), 1);
 	return (0);
 }
 

@@ -6,15 +6,15 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:31:15 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 10:56:01 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:36:44 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/codexion.h"
 
-int	enqueue_fifo(struct s_coder *coder);
+int		enqueue_fifo(struct s_coder *coder);
 int		is_first_fifo(struct s_coder *coder, struct s_dongle *dongle);
-int	enqueue_edf(struct s_coder *coder);
+int		enqueue_edf(struct s_coder *coder);
 int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn);
 
 int	enqueue_fifo(struct s_coder *coder)
@@ -31,9 +31,9 @@ int	enqueue_fifo(struct s_coder *coder)
 
 int	is_first_fifo(struct s_coder *coder, struct s_dongle *dongle)
 {
-	t_coder	*enemy;
-	uint64_t c_deadline;
-	uint64_t e_deadline;
+	t_coder		*enemy;
+	uint64_t	c_deadline;
+	uint64_t	e_deadline;
 
 	if (coder == dongle->heap[0])
 		enemy = dongle->heap[1];
@@ -64,11 +64,11 @@ int	enqueue_edf(struct s_coder *coder)
 	return (0);
 }
 
-int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
+int	is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 {
-	t_coder *enemy;
-	uint64_t  c_deadline;
-	uint64_t  e_deadline;
+	t_coder		*enemy;
+	uint64_t	c_deadline;
+	uint64_t	e_deadline;
 
 	if (coder == dongle->heap[0])
 		enemy = dongle->heap[1];
@@ -81,9 +81,6 @@ int		is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 	e_deadline = enemy->comp_st + burn;
 	pthread_mutex_unlock(&enemy->mutex);
 	if (c_deadline <= e_deadline)
-	{
-		//printf("Coder %d is first!\n", coder->id);
 		return (0);
-	}
 	return (1);
 }

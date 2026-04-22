@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/21 10:50:44 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:34:20 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod)
 			break ;
 		if (ar[i] == 0)
 			completed += check_if_compiled(&compiler->coders[i], i, ar);
-		//if (i == nb_cod - 1)
-			//usleep(1000);
 		i = (i + 1) % nb_cod;
 	}
 	free(ar);
@@ -62,8 +60,8 @@ void	run_monitor_loop(struct s_compiler *compiler, int nb_cod)
 
 int	detect_burnout(struct s_coder *coder, struct s_monitor *monitor)
 {
-	int burned_out;
-	uint64_t time;
+	int			burned_out;
+	uint64_t	time;
 
 	burned_out = 0;
 	time = get_time();
@@ -86,7 +84,7 @@ int	detect_burnout(struct s_coder *coder, struct s_monitor *monitor)
 
 int	check_if_compiled(struct s_coder *coder, int i, int *ar)
 {
-	int	compiled;
+	int			compiled;
 	uint64_t	time;
 
 	compiled = 0;

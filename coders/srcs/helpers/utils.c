@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:18:51 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 10:59:03 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 12:37:40 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,7 @@ uint64_t	get_time(void)
 
 uint64_t	get_prog_time(struct s_monitor *monitor)
 {
-	uint64_t	time;
-	time = get_time() - monitor->prog_start;
-	return (time);
+	return (get_time() - monitor->prog_start);
 }
 
 void	print_success_msg(struct s_compiler *compiler)

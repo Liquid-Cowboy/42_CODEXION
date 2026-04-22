@@ -6,11 +6,14 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:30:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 10:52:53 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/04/22 16:01:35 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/codexion.h"
+
+void	print_compiler(struct s_hub_stats compiler);
+void	print_help(void);
 
 void	print_compiler(struct s_hub_stats compiler)
 {
@@ -34,34 +37,18 @@ void	print_compiler(struct s_hub_stats compiler)
 		compiler.scheduler);
 }
 
-void	handle_single_coder(struct s_compiler *compiler,
-		struct s_monitor *monitor)
-{
-	compiler->coders[0].comp_st = 1;
-	compiler->coders[0].compiles_left = 1;
-	compiler->coders[0].compiler = compiler;
-	compiler->coders[0].id = 1;
-	init_coder_mutexes(compiler, 1);
-	compiler->coders[0].comp_st = get_prog_time(monitor);
-	create_monitor_thread(compiler);
-	if (pthread_join(monitor->thread, NULL) != 0)
-		fprintf(stderr, "Error: Unable to join monitor thread.\n");
-	pthread_mutex_destroy(&monitor->mutex);
-}
-
 int	main(int argc, char **argv)
 {
 	t_compiler	*compiler;
 	int			nb_cod;
 	int			err;
 
+	if (argc == 2 && strcmp(argv[1], "--help") == 0)
+		return (printf(HELP), 0);
 	err = compiler_init(&compiler, argc, argv);
 	if (err)
 		return (err);
 	nb_cod = compiler->hub.number_of_coders;
-	if (nb_cod == 1)
-		return (handle_single_coder(compiler,
-			&compiler->monitor), 1);
 	init_all(compiler);
 	err = start_threads(compiler);
 	if (err)
@@ -69,7 +56,6 @@ int	main(int argc, char **argv)
 	err = join_threads(compiler, nb_cod);
 	if (err)
 		return (free_compiler(compiler, 4, nb_cod), err);
-	//print_compiler(compiler->hub);
 	free_compiler(compiler, 4, nb_cod);
 	return (0);
 }
