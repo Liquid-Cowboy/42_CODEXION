@@ -80,6 +80,15 @@ int	is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 	pthread_mutex_lock(&enemy->mutex);
 	e_deadline = enemy->comp_st + burn;
 	pthread_mutex_unlock(&enemy->mutex);
+	if (c_deadline == e_deadline)
+	{
+		if (coder->id < enemy->id)
+		{
+			printf("Coder id is lower than enemy id.\n");
+			return (0);
+		}
+		return (1);
+	}
 	if (c_deadline <= e_deadline)
 		return (0);
 	return (1);
