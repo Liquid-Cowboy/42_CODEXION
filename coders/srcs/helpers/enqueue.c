@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 14:31:15 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 12:36:44 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/21 17:25:21 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,10 @@ int	is_first_edf(struct s_coder *coder, struct s_dongle *dongle, int burn)
 	if (c_deadline == e_deadline)
 	{
 		if (coder->id < enemy->id)
-		{
-			printf("Coder id is lower than enemy id.\n");
 			return (0);
-		}
 		return (1);
 	}
-	if (c_deadline <= e_deadline)
+	if (c_deadline < e_deadline)
 		return (0);
 	return (1);
 }

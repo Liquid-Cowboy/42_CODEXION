@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 12:30:00 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/21 17:36:24 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,6 @@ void	*coder_routine(void *arg)
 	t_coder		*coder;
 
 	coder = (t_coder *)arg;
-	pthread_mutex_lock(&coder->mutex);
-	coder->comp_st = get_time();
-	coder->ref_end = get_time();
-	pthread_mutex_unlock(&coder->mutex);
 	while (can_start(coder) == 0)
 	{
 		if (start_routine(coder) != 0)

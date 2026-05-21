@@ -17,7 +17,7 @@ SRCS		:= $(shell find $(SRC_DIR) -name "*.c")
 OBJ_DIR		:=objs
 OBJS		:= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-ARGS		:= 12 10000 100 100 100 3 100 edf
+ARGS		:= 6 700 100 100 200 5 100 edf
 
 
 all: $(NAME)
