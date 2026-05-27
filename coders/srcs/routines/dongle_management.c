@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:07:31 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 12:33:36 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/27 16:11:25 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,18 @@ void	leave_both_dongles(struct s_coder *coder, int used)
 	if (!dongles)
 		return ;
 	decide_first_dongle(dongles, coder);
-	pthread_mutex_lock(&dongles[1]->mutex);
-	dongles[1]->in_use = 0;
-	if (used)
-		dongles[1]->last_used = get_time();
-	pthread_cond_broadcast(&dongles[1]->cond);
-	pthread_mutex_unlock(&dongles[1]->mutex);
 	pthread_mutex_lock(&dongles[0]->mutex);
-	dongles[0]->in_use = 0;
 	if (used)
 		dongles[0]->last_used = get_time();
+	dongles[0]->in_use = 0;
 	pthread_cond_broadcast(&dongles[0]->cond);
 	pthread_mutex_unlock(&dongles[0]->mutex);
+	pthread_mutex_lock(&dongles[1]->mutex);
+	if (used)
+		dongles[1]->last_used = get_time();
+	dongles[1]->in_use = 0;
+	pthread_cond_broadcast(&dongles[1]->cond);
+	pthread_mutex_unlock(&dongles[1]->mutex);
 	free(dongles);
 }
 
@@ -106,5 +106,6 @@ int	request_dongle(struct s_coder *coder, struct s_dongle *dongle, int cooldown)
 		deadline.tv_nsec = (target % 1000) * 1000000;
 		pthread_cond_timedwait(&dongle->cond, &dongle->mutex, &deadline);
 	}
+
 	return (pthread_mutex_unlock(&dongle->mutex), 0);
 }

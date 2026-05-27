@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 10:32:00 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 12:34:20 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/27 15:36:57 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ int	detect_burnout(struct s_coder *coder, struct s_monitor *monitor)
 	burned_out = 0;
 	time = get_time();
 	pthread_mutex_lock(&coder->mutex);
-	if (coder->comp_st != 0
-		&& (coder->compiles_left > 0)
+	if ((coder->compiles_left > 0)
 		&& (coder->comp_st + coder->compiler->hub.time_to_burnout) < time)
 		burned_out = 1;
 	pthread_mutex_unlock(&coder->mutex);

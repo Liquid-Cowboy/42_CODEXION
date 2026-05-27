@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 11:18:51 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/22 12:37:40 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/27 11:33:38 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		decide_first_dongle(struct s_dongle **dongles,
 				struct s_coder *coder);
-u_int64_t	get_time(void);
+uint64_t	get_time(void);
 int			check_if_stopped(struct s_monitor monitor);
 void		print_success_msg(struct s_compiler *compiler);
 uint64_t	get_prog_time(struct s_monitor *monitor);

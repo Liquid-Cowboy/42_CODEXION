@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:11:28 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/24 19:15:14 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/27 11:43:41 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ uint64_t			get_time(void);
 int					check_if_stopped(struct s_monitor monitor);
 void				print_success_msg(struct s_compiler *compiler);
 uint64_t			get_prog_time(struct s_monitor *monitor);
+
+//	helpers/single_coder.c
+void				handle_single_coder(struct s_hub_stats hub,
+						struct s_monitor *monitor);
 
 //	threads/thread_start_1.c
 int					start_threads(struct s_compiler *compiler);

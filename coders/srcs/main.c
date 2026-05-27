@@ -6,7 +6,7 @@
 /*   By: mnogueir <mnogueir@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 19:30:35 by mnogueir          #+#    #+#             */
-/*   Updated: 2026/04/24 19:29:02 by mnogueir         ###   ########.fr       */
+/*   Updated: 2026/05/27 11:43:45 by mnogueir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,9 @@ int	main(int argc, char **argv)
 		return (err);
 	nb_cod = compiler->hub.number_of_coders;
 	init_all(compiler);
+	if (nb_cod == 1)
+		return (handle_single_coder(compiler->hub, &compiler->monitor),
+			free_compiler(compiler, 4, nb_cod), 0);
 	err = start_threads(compiler);
 	if (err)
 		return (free_compiler(compiler, 4, nb_cod), err);
